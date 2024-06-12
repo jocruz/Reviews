@@ -1,62 +1,110 @@
-## Figma URL
+### Updated `README.md` for the Reviews App
 
-[Reviews](https://www.figma.com/file/e8L2QiR4GVTa5cGuRpXtk3/Reviews?node-id=0%3A1&t=gcCYcePiKxnkJ9kH-1)
+---
 
-## Steps
+## Reviews App
 
-#### Explore Data
+The Reviews App provides a dynamic and interactive way to cycle through reviews using a beautifully designed UI. It utilizes React to dynamically display reviews, offering users the functionality to browse through them via next and previous buttons or jump to a random review.
 
-Navigate to data.js and take a look at the data structure
+### Figma Design
 
-#### Import Reviews
+Explore the UI design on Figma for a visual overview of the Reviews App:
+[View Design](https://www.figma.com/file/e8L2QiR4GVTa5cGuRpXtk3/Reviews?node-id=0%3A1&t=gcCYcePiKxnkJ9kH-1)
 
-First, import the reviews data into your project. This data should be an array of objects, with each object representing a person's review and containing properties such as name, job, image URL, and text.
+### Installation and Setup
 
-#### Setup State Value (Index)
+To set up the Reviews App locally, follow these steps:
 
-Then, set up a state value that controls which person from the list is displayed.
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/jocruz/Reviews.git
+   cd Reviews
+   ```
 
-#### React Icons (Optional)
+2. **Install Dependencies**
+   ```bash
+   npm install
+   ```
 
-[Docs](https://react-icons.github.io/react-icons/)
+3. **Run the Application**
+   ```bash
+   npm start
+   ```
 
-```sh
-npm install react-icons --save
+### Features
+
+- **Dynamic Review Display**: Starts with the first review and allows navigation through the reviews dataset.
+- **Navigation Controls**: Users can navigate through reviews using the next and previous buttons.
+- **Random Review**: Includes a 'Surprise Me' button that displays a random review from the dataset.
+
+### Technical Details
+
+- **React Icons**: Utilize `react-icons` for stylish, responsive icons.
+   ```bash
+   npm install react-icons --save
+   ```
+
+- **State Management**: Uses the `useState` hook for managing the current displayed review and navigation through the review list.
+- **Modular Components**: The app is built using reusable React components for each review display and navigation buttons.
+
+### Code Snippets
+
+```jsx
+import React from 'react';
+import { useState } from 'react';
+import { FaChevronRight, FaChevronLeft, FaQuoteRight } from 'react-icons/fa';
+import reviews from './data';
+
+function App() {
+  const [index, setIndex] = useState(0);
+  const { name, job, image, text } = reviews[index];
+
+  const checkNumber = (number) => {
+    if (number > reviews.length - 1) {
+      return 0;
+    } else if (number < 0) {
+      return reviews.length - 1;
+    }
+    return number;
+  };
+
+  const nextReview = () => {
+    setIndex((index) => {
+      let newIndex = index + 1;
+      return checkNumber(newIndex);
+    });
+  };
+
+  const prevReview = () => {
+    setIndex((index) => {
+      let newIndex = index - 1;
+      return checkNumber(newIndex);
+    });
+  };
+
+  const randomReview = () => {
+    let randomNumber = Math.floor(Math.random() * reviews.length);
+    if (randomNumber === index) {
+      randomNumber = index + 1;
+    }
+    setIndex(checkNumber(randomNumber));
+  };
+
+  return (
+    <main>
+      <section className='container'>
+        {/* Review Card */}
+      </section>
+    </main>
+  );
+}
+
+export default App;
 ```
 
-App.jsx
+### Links
 
-```js
-import { FaBeer } from 'react-icons/fa';
-const App = () => {
-  return;
-  <div>
-    <h2>Reviews Starter</h2>;
-    <FaBeer className='beer' />
-  </div>;
-};
-```
+- **GitHub Repository**: [Visit GitHub](https://github.com/jocruz/Reviews)
+- **Live Demo**: [See it Live](https://gilded-moonbeam-3d4e42.netlify.app/)
 
-#### Render First Person
-
-To render the first person in the list, you can access the first item in the reviews array and use its properties to display the person's image (inline styles), name, job, and review text.
-
-#### Prev and Next
-
-To allow the user to cycle through the reviews, you can set up buttons to display the next and previous reviews in the list. You can do this by keeping track of the current index in the reviews array, and updating the index when the user clicks the next or previous button. You can then use the updated index to access the corresponding person's review from the reviews array.
-
-#### Random
-
-To allow the user to display a random person's review, you can set up a button with functionality to randomly select an index in the reviews array. You can then use the selected index to display the corresponding person's review.
-
-#### Extra
-
-The modulus operator in JavaScript is represented by the percent sign (%). It returns the remainder of a division operation between two numbers.
-
-Overall, the flow of the application should look something like this:
-
-- Import the reviews data into your project as an array of objects.
-- Set up the reviews data as a state variable using the useState hook.
-- Render the first person's review in the list using their image, name, job, and text properties.
-- Set up buttons to display the next and previous reviews in the list. Keep track of the current index in the reviews array and update it when the user clicks the next or previous button.
-- Set up a button to display a random person's review. This button should select a random index in the reviews array and use it to display the corresponding person's review.
+---
